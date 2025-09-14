@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view>
+    <columns>
+        <group name="management" numcolumns="9" title="document-management">
+            <column name="category" numcolumns="3" order="100">
+                <widget type="autocomplete" fieldname="idfilecategory">
+                    <values source="filecategories" fieldcode="id" fieldtitle="name"/>
+                </widget>
+            </column>
+            <column name="description" numcolumns="9" order="110">
+                <widget type="text" fieldname="description"/>
+            </column>
+        </group>
+    </columns>
+</view>

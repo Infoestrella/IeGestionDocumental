@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table>
+    <column>
+        <name>description</name>
+        <type>character varying(200)</type>
+    </column>
+    <column>
+        <name>idfilecategory</name>
+        <type>integer</type>
+    </column>
+    <constraint>
+        <name>ca_attached_files_filecategories</name>
+        <type>FOREIGN KEY (idfilecategory) REFERENCES filecategories (id) ON DELETE SET NULL ON UPDATE CASCADE</type>
+    </constraint>
+</table>
