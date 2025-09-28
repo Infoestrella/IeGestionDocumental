@@ -15,10 +15,13 @@
         <column name="description" numcolumns="9" order="130">
             <widget type="text" fieldname="description"/>
         </column>
-        <column name="size" display="right" order="140">
+        <column name="folder" numcolumns="9" order="140">
+            <widget type="text" fieldname="folder"/>
+        </column>
+        <column name="size" display="right" order="150">
             <widget type="bytes" fieldname="size" decimal="0"/>
         </column>
-        <column name="date" display="right" order="150">
+        <column name="date" display="right" order="160">
             <widget type="date" fieldname="date"/>
         </column>
     </columns>

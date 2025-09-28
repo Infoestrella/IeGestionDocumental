@@ -5,6 +5,10 @@
         <type>character varying(200)</type>
     </column>
     <column>
+        <name>folder</name>
+        <type>character varying(200)</type>
+    </column>
+    <column>
         <name>idfilecategory</name>
         <type>integer</type>
     </column>

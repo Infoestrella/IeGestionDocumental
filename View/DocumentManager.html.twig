@@ -1,0 +1,89 @@
+{% extends "Master/MenuTemplate.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <form id="upload-file" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <input type="hidden" name="folder" value="">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="tree"></div>
+        </div>
+        <div class="col-md-8" id="file-preview">
+            <p>{{ trans('Select a file to preview') }}</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src='Plugins/IeGestionDocumental/Assets/JS/jstree.min.js'></script>
+    <link rel="stylesheet" href="Plugins/IeGestionDocumental/Assets/JS//themes/default/style.min.css">
+    
+    <script>
+        $(function () {
+            $('#tree').jstree({
+                'core': {
+                    'data': {{ fsc.treeData|json_encode|raw }}
+                }
+            });
+
+            $('#tree').on("select_node.jstree", function (e, data) {
+                var node = data.node;
+                var url = node.a_attr['data-url'];
+                var ext = node.a_attr['data-ext'];
+
+                if (!url) {
+                    $('#file-preview').html('<p>{{ trans("Select a file to preview") }}</p>');
+                    return;
+                }
+
+                var html = '';
+                if (['jpg','jpeg','png','gif','bmp'].includes(ext)) {
+                    html = '<img src="'+url+'" class="img-fluid">';
+                } else if (ext === 'pdf') {
+                    html = '<embed src="'+url+'" type="application/pdf" width="100%" height="600px">';
+                } else if (['mp4','webm','ogg'].includes(ext)) {
+                    html = '<video controls width="100%"><source src="'+url+'" type="video/'+ext+'"></video>';
+                } else {
+                    html = '<a href="'+url+'" target="_blank">{{ trans("Download file") }}</a>';
+                }
+
+                $('#file-preview').html(html);
+            });
+        });
+
+        $(document).on('submit', '#upload-file', function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+        });
+
+        $(document).ready(function() {
+            $('#upload-file').on('submit', function(e){
+                e.preventDefault();
+                var formData = new FormData(this);
+
+                console.log('Form submitted', formData.get('file'), formData.get('folder'));
+
+                $.ajax({
+                    url: 'DocumentManager?upload=1',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log('Server response:', response);
+                        alert('File uploaded!'); // feedback simple
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Upload error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -10,6 +10,9 @@
             <column name="description" numcolumns="9" order="110">
                 <widget type="text" fieldname="description"/>
             </column>
+            <column name="folder" numcolumns="9" order="120">
+                <widget type="text" fieldname="folder"/>
+            </column>
         </group>
     </columns>
 </view>
